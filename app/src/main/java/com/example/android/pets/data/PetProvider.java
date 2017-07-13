@@ -50,7 +50,7 @@ public class PetProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
 
-        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+       SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
         Cursor cursor;
 
@@ -59,13 +59,14 @@ public class PetProvider extends ContentProvider {
         switch (match){
             case PETS:
                 cursor = database.query(PetEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                Log.v("pets path", cursor.toString());
                 break;
             case PET_ID:
 
                 selection = PetEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(PetEntry.TABLE_NAME, projection,selection, selectionArgs, null, null, sortOrder);
-
+                Log.v("pets id path", cursor.toString());
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown uri" + uri);
@@ -73,6 +74,7 @@ public class PetProvider extends ContentProvider {
 
 
         return cursor;
+
     }
 
     /**
